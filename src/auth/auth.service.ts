@@ -59,7 +59,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
     // Generate JWT token
-    const payload = { sub: user.id, email: user.email };
+    const payload = { id: user.id, email: user.email };
     const accessToken = this.jwtService.sign(payload);
 
     return {
@@ -82,6 +82,8 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    return user;
+    const result = { ...user };
+    delete result.password;
+    return result;
   }
 }

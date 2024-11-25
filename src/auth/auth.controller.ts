@@ -16,9 +16,9 @@ import {
   ApiResponse,
   ApiBody,
   ApiOkResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
@@ -64,6 +64,8 @@ export class AuthController {
     description: 'User successfully retrieved',
     type: AuthorizedUserDto,
   })
+
+  @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async me(@Request() req): Promise<AuthorizedUserDto> {
     return this.authService.me(req.user.id);
