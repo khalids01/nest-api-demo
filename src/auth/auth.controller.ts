@@ -64,7 +64,6 @@ export class AuthController {
     description: 'User successfully retrieved',
     type: AuthorizedUserDto,
   })
-
   @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async me(@Request() req): Promise<AuthorizedUserDto> {
