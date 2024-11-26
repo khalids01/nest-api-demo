@@ -14,6 +14,7 @@ import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import {
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -23,6 +24,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Transaction } from './entities/transaction.entity';
 
 @Controller('transaction')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
@@ -40,10 +42,10 @@ export class TransactionController {
     type: Transaction,
   })
   @ApiQuery({ name: 'page', required: false, type: 'number' })
-  @ApiQuery({ name: 'total', required: false, type: 'number' })
+  @ApiQuery({ name: 'limit', required: false, type: 'number' })
   @Get()
-  findAll(@Query() page: number, @Query() total: number) {
-    return this.transactionService.findAll(page, total);
+  findAll(@Query("page") page: number, @Query("limit") limit: number) {
+    return this.transactionService.findAll(page, limit);
   }
 
   @ApiOperation({ summary: 'Retrieve a transaction by ID' })
